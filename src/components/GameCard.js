@@ -6,7 +6,7 @@ function GameCard({
   gamesList,
   openMakeAnOfferComponent,
   showComponent,
-  offerId,
+  offerId,setMessageModal,
 }) {
   return (
     <div className="trade-offer-container">
@@ -48,6 +48,7 @@ function GameCard({
               >
                 Make an offer
               </button>
+              <button className="btn btn-special" onClick={()=>{setMessageModal(true)}}>Send message</button>
             </div>
           </div>
         </div>
