@@ -17,7 +17,7 @@ export default function MessageSection({SetMessageModal,userToSendMessage}) {
         SetMessageModal(false)
         axios
       .post(`/api/send-message/`, message)
-      .then(() => {})
+      .then(() => alert('Message sent'))
       .catch((err) => {
         console.log(err)
       });
