@@ -9,7 +9,7 @@
 
 .modal-main {
     position:fixed;
-    display: flex;
+    display: block;
     padding: 20px;
     justify-content: space-between;
     align-items: center;
@@ -19,4 +19,13 @@
     top:50%;
     left:50%;
     transform: translate(-50%,-50%);
+  }
+  .message-btn-container{
+      display: flex;
+      justify-content: space-between;
+      align-items:center;
+  }
+
+  .msg-table{
+     width: 60%;
   }

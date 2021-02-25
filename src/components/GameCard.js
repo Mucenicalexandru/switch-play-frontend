@@ -6,8 +6,12 @@ function GameCard({
   gamesList,
   openMakeAnOfferComponent,
   showComponent,
-  offerId,setMessageModal,
-}) {
+  offerId,
+  setMessageModal,
+  UserToSendMessage,
+  setUserToSendMessage
+})
+{
   return (
     <div className="trade-offer-container">
       {gamesList.map((selectedGame, index) => (
@@ -48,7 +52,12 @@ function GameCard({
               >
                 Make an offer
               </button>
-              <button className="btn btn-special" onClick={()=>{setMessageModal(true)}}>Send message</button>
+              <button className="btn btn-special" onClick={()=>{
+                const s = { ...UserToSendMessage };
+                s.id = selectedGame.user.id
+                s.firstName= selectedGame.user.firstName
+                setUserToSendMessage(s);
+                setMessageModal(true)}}>Send message</button>
             </div>
           </div>
         </div>

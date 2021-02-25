@@ -6,8 +6,7 @@ export default function Inbox() {
     const value = useContext(UserContext);
     const userId = value.userId
     const [Inbox, setInbox] = useState({});
-    const [receivedMessages, setReceivedMessages] = useState([]);
-    const [sentMessages, setSentMessages] = useState([]);
+    const [messages, setMessages] = useState([]);
 
     useEffect(() => {
 
@@ -18,15 +17,15 @@ export default function Inbox() {
             .then((response) => {
                 console.log(response.data)
                 setInbox(response.data)
-                setSentMessages(response.data.receivedMessages)
+                setMessages(response.data.receivedMessages)
       })},[])
     return (
         <div>
-            <button onClick={()=>setSentMessages(Inbox.sentMessages)}> Sent </button>
-            <button onClick={()=>setSentMessages(Inbox.receivedMessages)}>Received</button>
+            <button onClick={()=>setMessages(Inbox.sentMessages)}> Received </button>
+            <button onClick={()=>setMessages(Inbox.receivedMessages)}>Sent</button>
         
         <div>
-            <table className="table w-100">
+            <table className="msg-table">
                 <thead>
                     <tr>
                         <th scope="col">Date</th>
@@ -36,7 +35,7 @@ export default function Inbox() {
                     </tr>
                 </thead>
                 <tbody>
-                {sentMessages.map((res)=>{
+                {messages.map((res)=>{
                 return(
                 <tr>
                     <td>{res.date}</td>
