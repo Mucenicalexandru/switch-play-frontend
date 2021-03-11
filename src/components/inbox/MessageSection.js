@@ -5,6 +5,7 @@ import axios from 'axios';
 
 export default function MessageSection({ SetMessageModal, userToSendMessage }) {
   const user = useContext(UserContext);
+  const [successAlert, setSuccessAlert] = useState(false);
   const [message, setMessage] = useState({
     senderUserName: user.firstName,
     receiverUserName: userToSendMessage.firstName,
@@ -14,10 +15,15 @@ export default function MessageSection({ SetMessageModal, userToSendMessage }) {
   });
 
   function sendMessage() {
-    SetMessageModal(false);
+    setSuccessAlert(true);
     axios
       .post(`/api/send-message/`, message)
-      .then(() => alert('Message sent'))
+      .then(() =>
+        setTimeout(() => {
+          SetMessageModal(false);
+          setSuccessAlert(false);
+        }, 1500)
+      )
       .catch((err) => {
         console.log(err);
       });
@@ -26,26 +32,50 @@ export default function MessageSection({ SetMessageModal, userToSendMessage }) {
   return (
     <div className="message-container">
       <div className="modal-main">
-        <h4>Send Message to :{userToSendMessage.firstName}</h4>
-        <div className="message-btn-container">
-          <textarea
-            onChange={(e) => {
-              const s = { ...message };
-              s.message = e.target.value;
-              setMessage(s);
-            }}
-            size="50"
-            rows="4"
-          ></textarea>
-          <button
-            type="submit"
-            className="btn btn-special"
-            onClick={(e) => {
-              sendMessage(e);
-            }}
-          >
-            Send Message
-          </button>
+        {successAlert ? (
+          ''
+        ) : (
+          <h4>Send a message to {userToSendMessage.firstName}</h4>
+        )}
+        <div>
+          {successAlert ? (
+            <div className="success-message-container" id="alert">
+              <p className="gamed-added-message">Message sent!</p>
+            </div>
+          ) : (
+            <div className="message-btn-container">
+              <textarea
+                onChange={(e) => {
+                  const s = { ...message };
+                  s.message = e.target.value;
+                  setMessage(s);
+                }}
+                size="50"
+                rows="4"
+                style={{ margin: '10px' }}
+              ></textarea>
+              <div className="send-message-button-container">
+                <button
+                  type="submit"
+                  className="btn btn-special"
+                  onClick={(e) => {
+                    sendMessage(e);
+                  }}
+                >
+                  Send
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-special"
+                  onClick={(e) => {
+                    SetMessageModal(false);
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
