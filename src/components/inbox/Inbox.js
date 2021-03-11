@@ -18,6 +18,7 @@ export default function Inbox() {
 
   useEffect(() => {
     axios.get(`/api/get-inbox/${userId}`, {}).then((response) => {
+      console.log(response.data);
       setInbox(response.data);
       setMessages(response.data.receivedMessages);
     });
@@ -35,26 +36,28 @@ export default function Inbox() {
   }
 
   return (
-    <div>
-      <button
-        onClick={() => {
-          setAnswerBtn(true);
-          setMessages(Inbox.sentMessages);
-        }}
-      >
-        {' '}
-        Received{' '}
-      </button>
-      <button
-        onClick={() => {
-          setAnswerBtn(false);
-          setMessages(Inbox.receivedMessages);
-        }}
-      >
-        Sent
-      </button>
-
-      <div>
+    <div className="inbox-messages-container">
+      <div className="buttons-container">
+        <button
+          className="btn btn-special"
+          onClick={() => {
+            setAnswerBtn(true);
+            setMessages(Inbox.sentMessages);
+          }}
+        >
+          Received
+        </button>
+        <button
+          className="btn btn-special"
+          onClick={() => {
+            setAnswerBtn(false);
+            setMessages(Inbox.receivedMessages);
+          }}
+        >
+          Sent
+        </button>
+      </div>
+      <div className="messages-table">
         <table className="msg-table">
           <thead>
             <tr>
@@ -67,9 +70,21 @@ export default function Inbox() {
           </thead>
           <tbody>
             {messages.map((res) => {
+              //date converting
+              let date = Date.parse(res.date);
+
               return (
                 <tr key={res.message_id}>
-                  <td>{res.date}</td>
+                  <td>
+                    {new Intl.DateTimeFormat('en-GB', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: '2-digit',
+                      hour: 'numeric',
+                      minute: 'numeric',
+                      second: 'numeric',
+                    }).format(date)}
+                  </td>
                   <td>{res.senderUserName}</td>
                   <td>{res.receiverUserName}</td>
                   <td>{res.message}</td>
