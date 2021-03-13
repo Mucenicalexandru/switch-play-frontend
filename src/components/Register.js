@@ -65,8 +65,6 @@ function Register(props) {
     }
   };
 
-  console.log(verifyPassword);
-
   return (
     <div>
       <div className="d-flex justify-content-center register-container">
